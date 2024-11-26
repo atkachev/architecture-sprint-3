@@ -14,22 +14,45 @@ class HeatingScenarioService {
     +void scheduledAllScenaries() //запуск всех задач по их расписанию
 }
 
+class HeatingConditionService {
+  +HeatingCondition saveCondition(HeatingCondition condition)
+  +List<HeatingCondition> findConditions(SearchFilterDto filter)
+}
+
+class SearchFilterDto {
+  +Long startDate
+  +Long endDate
+  +List<Long> houseIds
+}
+
 class HeatingScenario {
   +Long id
+  +Long userId
   +Long heatingId
-  +Enum type
   +String cron
   +boolean active
+  +boolean isSystem
 }
 
 class Heating {
   +Long id
+  +Long userId
   +boolean isOn
   +Double targetTemperature
   +Double currentTemperature
 }
 
+class HeatingCondition {
+  +Long id
+  +Long houseId
+  +Double currentTemperature
+  +Date createdDate
+}
+
 HeatingScenarioService -- HeatingScenario : use
+HeatingScenarioService -- HeatingConditionService : use
+HeatingConditionService -- HeatingCondition : use
+HeatingConditionService -- SearchFilterDto : use
 HeatingScenario "1" -- "0..*" Heating : has
 
 
