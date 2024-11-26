@@ -28,6 +28,14 @@ entity "Heating" as h {
   last_updated : date
 }
 
+entity "HeatingCondition" as hc {
+  *hc_id : number <<generated>>
+  --
+  *house_id : number <<FK>>
+  current_temperature : double
+  created_date : date
+}
+
 entity "HeatingScenario" as hs {
   *hs_id : number <<generated>>
   --
@@ -50,6 +58,14 @@ entity "Gates" as g {
   last_updated : date
 }
 
+entity "GatesCondition" as gc {
+  *gc_id : number <<generated>>
+  --
+  *house_id : number <<FK>>
+  current_is_open: boolean
+  created_date : date
+}
+
 entity "GatesScenario" as gs {
   *gs_id : number <<generated>>
   --
@@ -69,6 +85,14 @@ entity "Light" as l {
   target_is_on: boolean
   current_is_on: boolean
   last_updated : date
+}
+
+entity "LightCondition" as lc {
+  *g_id : number <<generated>>
+  --
+  *house_id : number <<FK>>
+  current_is_on: boolean
+  created_date : date
 }
 
 entity "LightScenario" as ls {
@@ -101,7 +125,7 @@ entity "CameraScenario" as cs {
   record_life_time: number
 }
 
-entity "VideBLOB" as cb {
+entity "VideoBLOB" as cb {
   *ls_id : number <<generated>>
   --
   *house_id : number <<FK>>
@@ -112,16 +136,19 @@ entity "VideBLOB" as cb {
 u |o..o{ house
 
 house |o..o| h
+house |o..o| hc
 house |o..o{ hs
 h |o..o{ hs
 
 
 house |o..o| g
 house |o..o{ gs
+house |o..o{ gc
 g |o..o{ gs
 
 house |o..o| l
 house |o..o{ ls
+house |o..o{ lc
 l |o..o{ ls
 
 house |o..o| c
